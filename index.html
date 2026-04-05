@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>笑死我了</title>
+    <style>
+        /* 彻底清除所有可见元素：无文字、无背景、无任何边距 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+            background: transparent;  /* 完全透明背景（或白背景，无任何文字） */
+            overflow: hidden;
+        }
+        /* 隐藏音频控件，不显示任何UI */
+        audio {
+            display: none;
+        }
+        /* 确保没有任何可见内容 */
+        .nothing {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- 没有任何文字、按钮、图标 —— 纯粹的音乐播放 -->
+    <audio id="player" src="91.html" autoplay loop preload="auto"></audio>
+
+    <script>
+        (function() {
+            const audio = document.getElementById('player');
+            if (audio) {
+                // 强制音量为最大 1.0
+                audio.volume = 1.0;
+                
+                // 监听音量变化，始终保持在最大
+                audio.addEventListener('volumechange', function() {
+                    if (audio.volume !== 1.0) {
+                        audio.volume = 1.0;
+                    }
+                });
+                
+                // 页面加载后立即尝试播放
+                window.addEventListener('load', function() {
+                    audio.volume = 1.0;
+                    audio.play().catch(function(e) {
+                        // 静默失败：不显示任何提示，完全符合“其他什么都不要”
+                        console.log("auto-play blocked (silent)");
+                    });
+                });
+                
+                // 额外保险：定时确保音量为最大（不影响任何视觉）
+                setInterval(function() {
+                    if (audio.volume !== 1.0) {
+                        audio.volume = 1.0;
+                    }
+                }, 300);
+            }
+        })();
+    </script>
+</body>
+</html>
